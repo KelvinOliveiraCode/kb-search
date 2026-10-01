@@ -1,0 +1,88 @@
+# Mapa de sinonimos para triagem de chamado.
+# Consultas do tecnico sao normalizadas para estes termos canonicos antes do
+# calculo de similaridade.
+#
+# Formato: termo_canonico: [sinonimos...]
+
+travamento:
+  canonico: travamento
+  sinonimos:
+    - travou
+    - travado
+    - travando
+    - congelou
+    - congelado
+    - congelando
+    - hang
+    - travou_sistema
+    - travamento
+
+queda:
+  canonico: queda
+  sinonimos:
+    - caiu
+    - cai
+    - caindo
+    - offline
+    - desconectado
+    - sem_resposta
+    - nao_responde
+    - down
+
+reinicio:
+  canonico: reinicio
+  sinonimos:
+    - reiniciou
+    - reiniciando
+    - reiniciar
+    - reboot
+    - restart
+    - religou
+
+degradacao:
+  canonico: degradacao
+  sinonimos:
+    - lento
+    - lentidao
+    - demora
+    - demorando
+    - travando_lento
+    - lento_demais
+
+consumo:
+  canonico: consumo
+  sinonimos:
+    - gasto
+    - alto
+    - gastando
+    - caro
+    - desperdicio
+
+perda:
+  canonico: perda
+  sinonimos:
+    - caiu
+    - queda
+    - cortou
+    - interrompido
+    - sem_link
+    - desconexao
+
+sem_sinal:
+  canonico: sinal
+  sinonimos:
+    - fraco
+    - ruim
+    - instavel
+    - oscilando
+    - caindo_sinal
+
+autenticacao:
+  canonico: autenticacao
+  sinonimos:
+    - login
+    - senha
+    - logon
+    - acesso_negado
+    - falha_de_login
+    - nao_entra

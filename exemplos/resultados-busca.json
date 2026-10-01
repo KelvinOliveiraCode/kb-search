@@ -1,0 +1,52 @@
+{
+  "consulta": "camera caiu",
+  "categoria_filtro": null,
+  "total_resultados": 5,
+  "resultados": [
+    {
+      "rank": 1,
+      "id": "cftv-001",
+      "titulo": "Camera IP caiu e nao aparece no NVR",
+      "categoria": "cftv",
+      "score": 0.3188,
+      "trecho": "A camera sumiu da lista de dispositivos online no NVR",
+      "solucao": "Teste conectividade no IP da camera com ping a partir de outra maquina da mesma VLAN. Se nao responde, e camada fisica: alimentacao PoE, porta do switch ou crimpagem. Se responde mas o NVR nao ve, o NVR pode estar em outra subnet sem rota para a camera."
+    },
+    {
+      "rank": 2,
+      "id": "net-006",
+      "titulo": "Queda de energia derruba as Cameras IP",
+      "categoria": "rede",
+      "score": 0.2899,
+      "trecho": "Apos retorno de energia, parte das cameras nao volta a transmitir.",
+      "solucao": "Verifique a alimentacao PoE. Camera com fonte propria volta em segundos; camera PoE depende do switch. Confira o timer de subida do switch: se for muito curto, o switch desliga a porta antes da camera terminar de subir e ela nunca registra. Ajuste para pelo menos 10 segundos."
+    },
+    {
+      "rank": 3,
+      "id": "acc-002",
+      "titulo": "Porta aberta por forca na madrugada",
+      "categoria": "cftv",
+      "score": 0.0853,
+      "trecho": "Evento de porta forada as 2h sem movimento de camera associado",
+      "solucao": "Verifique se a camera do ponto estava funcionando naquele momento. Camera offline durante incidente elimina a evidencia mais importante. Verifique a trilha de auditoria e a integridade do log, que precisa ser append-only para ter valor."
+    },
+    {
+      "rank": 4,
+      "id": "cftv-011",
+      "titulo": "Camera com relogio errado quebra a busca",
+      "categoria": "cftv",
+      "score": 0.0699,
+      "trecho": "A busca por horario no NVR nao encontra gravacao de um evento real.",
+      "solucao": "Camera com relogio errado descreve o evento no horario errado. Sincronize por NTP e nao manualmente: ajuste manual se perde. Verifique tambem se o NVR usa a hora da camera ou a propria na indexacao."
+    },
+    {
+      "rank": 5,
+      "id": "sec-004",
+      "titulo": "VLAN de CFTV com acesso a internet",
+      "categoria": "rede",
+      "score": 0.0695,
+      "trecho": "Cameras de uma organizacao tem rota default para internet.",
+      "solucao": "Segmentacao de CFTV e requisito de projeto, nao opcional: camera comprometida nao pode alcancar os demais sistemas. Remova a rota default da VLAN de CFTV. Mesma regra vale para VLAN de energia."
+    }
+  ]
+}

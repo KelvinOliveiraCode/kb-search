@@ -1,0 +1,23 @@
+Consulta / query: 'camera caiu'
+Base: 84 artigos
+
+1. [cftv] Camera IP caiu e nao aparece no NVR  (score 0.3188)
+   Trecho: A camera sumiu da lista de dispositivos online no NVR
+   Solucao: Teste conectividade no IP da camera com ping a partir de outra maquina da mesma VLAN. Se nao responde, e camad
+
+2. [rede] Queda de energia derruba as Cameras IP  (score 0.2899)
+   Trecho: Apos retorno de energia, parte das cameras nao volta a transmitir.
+   Solucao: Verifique a alimentacao PoE. Camera com fonte propria volta em segundos; camera PoE depende do switch. Confira
+
+3. [cftv] Porta aberta por forca na madrugada  (score 0.0853)
+   Trecho: Evento de porta forada as 2h sem movimento de camera associado
+   Solucao: Verifique se a camera do ponto estava funcionando naquele momento. Camera offline durante incidente elimina a 
+
+4. [cftv] Camera com relogio errado quebra a busca  (score 0.0699)
+   Trecho: A busca por horario no NVR nao encontra gravacao de um evento real.
+   Solucao: Camera com relogio errado descreve o evento no horario errado. Sincronize por NTP e nao manualmente: ajuste ma
+
+5. [rede] VLAN de CFTV com acesso a internet  (score 0.0695)
+   Trecho: Cameras de uma organizacao tem rota default para internet.
+   Solucao: Segmentacao de CFTV e requisito de projeto, nao opcional: camera comprometida nao pode alcancar os demais sist
+

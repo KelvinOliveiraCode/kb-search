@@ -1,0 +1,17 @@
+84 artigos em 5 categorias
+  cftv         16
+  energia      11
+  hardware     10
+  rede         29
+  software     18
+
+hw-001       [hardware] Estacao de trabalho travando e reiniciando sozinha
+hw-002       [hardware] Estacao lenta sem uso de CPU ou disco
+hw-003       [hardware] HD com bad block e erro de leitura
+hw-004       [hardware] SSD lento depois de um tempo de uso
+hw-005       [hardware] Fonte de alimentacao fazendo a maquina desligar
+hw-006       [hardware] Impressora nao conecta na rede
+hw-007       [hardware] Teclado com teclas que nao respondem
+hw-008       [hardware] Notebook nao carrega a bateria
+net-001      [rede] Computador sem rede apos a migration do cabo
+net-002      [rede] Rede lenta em um andar inteiro

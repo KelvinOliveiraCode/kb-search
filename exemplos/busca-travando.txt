@@ -1,0 +1,23 @@
+Consulta / query: 'travando'
+Base: 84 artigos
+
+1. [hardware] HD com bad block e erro de leitura  (score 0.3003)
+   Trecho: Sistema travando ao copiar arquivos, erro de I/O e demoros para abrir o Windows
+   Solucao: Rode chkdsk /f /r para verificar e recuperar setores ruins. Se os erros voltarem, o disco precisa ser trocado.
+
+2. [energia] Medidor de energia parou de registrar  (score 0.2893)
+   Trecho: O medidor mostra valores congelados no mesmo numero a cada leitura.
+   Solucao: Verifique a comunicacao Modbus: endereco do escravo, porta e taxa. Registrador congelado com comunicacao ativa
+
+3. [hardware] Estacao de trabalho travando e reiniciando sozinha  (score 0.2418)
+   Trecho: O computador trava, a tela fica azul e a maquina reinicia sozinha. Acontece varias vezes ao dia, sem correlacao com um p
+   Solucao: Verifique temperatura da CPU e da fonte com sensor. Se passar de 85 C, limpar o dissipador e conferir o fluxo 
+
+4. [software] Script de logon falha e trava a estacao  (score 0.0212)
+   Trecho: A estacao demora muito para fazer logon quando ha servidor indisponivel.
+   Solucao: Verifique timeouts nos scripts de logon. Script que tenta acessar recurso indisponivel sem timeout trava ate e
+
+5. [software] Windows lento para iniciar  (score 0.0203)
+   Trecho: A estacao leva muito tempo para ficar pronta apos ligar.
+   Solucao: Use a analise de inicializacao para ver quais programas sao iniciados automaticamente. Desative os que nao sao
+
