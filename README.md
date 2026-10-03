@@ -3,7 +3,7 @@
 <p>
   <img src="https://img.shields.io/badge/Python-3.10%2B-blue?style=flat-square&logo=python&logoColor=white" alt="Python">
   <img src="https://img.shields.io/badge/tests-84%20passing-brightgreen?style=flat-square" alt="Tests">
-  <img src="https://img.shields.io/badge/coverage-99%25-brightgreen?style=flat-square" alt="Coverage">
+  <img src="https://img.shields.io/badge/coverage-98%25-brightgreen?style=flat-square" alt="Coverage">
   <img src="https://img.shields.io/badge/license-MIT-yellow?style=flat-square" alt="License">
   <img src="https://img.shields.io/badge/platform-Windows-blue?style=flat-square" alt="Windows">
   <img src="https://img.shields.io/badge/deps-zero%20ML-brightgreen?style=flat-square" alt="No ML deps">
@@ -88,20 +88,22 @@ Outros comandos:
 ```powershell
 python -m kbsearch listar
 python -m kbsearch buscar "vlan" --categoria rede --top 3
-python -m kbsearch buscar "medidor" --formato json --saida exemplos/resultados-busca.json
+python -m kbsearch buscar "camera caiu" --formato json --saida exemplos/resultados-busca.json
 ```
 
 ### O que aprendi
 
 - **O `+ 1` do IDF nao e detalhe, e condicao de existencia.** Sem o `ln((N+1)/(df+1))+1`,
   um termo presente em todos os documentos recebe IDF zero e some da busca.
-  Numa base de suporte, "cabo" e "camera" estao em quase todo artigo - sem a
-  suavizacao, as palavras que menos distinguem eram as que dominavam o ranking.
+  Numa base de suporte, "cabo" aparece em 7 dos 84 artigos e "camera" em 12 -
+  sem a suavizacao, as palavras que menos distinguem eram as que dominavam o
+  ranking.
 - **Normalizar so a consulta nao basta.** O primeiro versao mapeava sinonimo
   apenas no texto buscado. Funcionava, ate esbarrar no caso invertido: artigo
   escrito com "travou", busca por "travando" nao encontrava nada. Passar o mapa
   nos **dois** lados resolve os dois sentidos de uma vez.
-- **Expandir sinonimo dilui a consulta.** Com "travando" virando oito termos, o
+- **Expandir sinonimo dilui a consulta.** Com "travando" virando 9 termos (o
+  proprio mais 8 sinonimos), o
   artigo que menciona "travou" numa frase de passagem vencia o que traz
   "travando" no titulo. Pesar o termo canonico em 4 e o sinonimo gerado em 1
   resolveu - e o peso entra por repeticao, que equivale a multiplicar o TF, sem
@@ -212,7 +214,7 @@ Other commands:
 ```powershell
 python -m kbsearch listar
 python -m kbsearch buscar "vlan" --categoria rede --top 3
-python -m kbsearch buscar "medidor" --formato json --saida exemplos/resultados-busca.json
+python -m kbsearch buscar "camera caiu" --formato json --saida exemplos/resultados-busca.json
 ```
 
 ### What I learned
