@@ -47,7 +47,8 @@ vocabulario controlado, o mapa de sinonimos cobre o essencial.
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-
+pip install -e .
+# instala o pacote local para o python -m <pacote>$nl
 # 2. Validar
 python -m pytest tests/ -v
 
@@ -170,7 +171,8 @@ essentials.
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-
+pip install -e .
+# instala o pacote local para o python -m <pacote>$nl
 # 2. Validate
 python -m pytest tests/ -v
 
