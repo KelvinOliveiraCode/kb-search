@@ -1,118 +1,98 @@
 # kb-search
 
-<div align="center">
-
 [English](README.en.md) · **Português (Brasil)**
 
-</div>
-
-[![Python 3](https://img.shields.io/badge/Python-3.x-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/) [![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=flat-square&logo=scikit-learn)](https://scikit-learn.org/) [![pandas](https://img.shields.io/badge/pandas-150458?style=flat-square&logo=pandas)](https://pandas.pydata.org/) [![pytest](https://img.shields.io/badge/pytest-0A9EDC?style=flat-square&logo=pytest)](https://docs.pytest.org/) [![MIT License](https://img.shields.io/badge/License-MIT-f4c430?style=flat-square)](LICENSE)
-
-### Busca por similaridade em base de conhecimento com TF-IDF escrito a mao
-
----
+[![Python 3](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=flat-square&logo=python&logoColor=white)](#) [![PyYAML](https://img.shields.io/badge/PyYAML-%C3%BAnica%20dep-3776AB?style=flat-square)](#) [![pytest](https://img.shields.io/badge/pytest-84%20testes-0A9EDC?style=flat-square&logo=pytest)](#) [![MIT License](https://img.shields.io/badge/License-MIT-f4c430?style=flat-square)](LICENSE)
 
 ## O que é
 
-Busca por similaridade em base de conhecimento com TF-IDF escrito a mao
+**Busca em base de conhecimento (motor próprio)**: indexa **artigos em YAML**, com **normalização de sinônimos** (`Normalizador`) e ranking **TF-IDF + similaridade de cosseno** implementado à mão (stdlib pandas-free). Saída em texto ou **JSON**. É um laboratório educacional de busca lexical (embedding-free).
 
----
+## Status
 
-## Início Rápido
+Laboratório educacional funcional e testado (84 testes).
 
-```bash
-# Clone e entre
-git clone https://github.com/KelvinOliveiraCode/<repo>.git
-cd <repo>
+## Funcionalidades
 
-# Instale dependências
-# Nenhum requirements.txt detectado
+- **Corpus** (`busca.py`): `Artigo` (id/título/texto/categoria), `BaseConhecimento.carregar_base` (YAML), `Resultado` com score.
+- **Índice** (`indexador.py`): `tokenizar`, `Indice` com TF-IDF (`_normalizar/matriz`), `similaridade` de cosseno.
+- **Normalização** (`normalizacao.py`): `carregar_sinonimos` (YAML) e `Normalizador` com `padroesPadrao` — consulta e docs no mesmo vocabulário.
+- **CLI** (`kbsearch`): `buscar <consulta> [--top N --categoria]` (texto ou JSON) e `listar` (todos os artigos).
 
-# Execute o projeto
-python main.py
+## Arquitetura
 
-# Execute os testes
-pytest
+Pacote `kbsearch` com `normalizacao` (sinônimos), `indexador` (TF-IDF puro), `busca` (corpus + top-k) e `cli.py`.
+
+```mermaid
+flowchart LR
+    KB[artigos .yaml] --> BASE[BaseConhecimento]
+    CONS[consulta] --> NORM[Normalizador - sinônimos]
+    BASE --> IDX[Indice - TF-IDF]
+    NORM --> IDX
+    IDX --> R[similaridade - cosseno -> Resultado]
+    R --> OUT[texto ou JSON]
+    CLI[kbsearch buscar/listar] --> R
 ```
 
-## Como funciona
+## Stack
 
-Estrutura limpa e modular com separação de responsabilidades.
+- Python ≥ 3.10, stdlib apenas (pandas-free)
+- PyYAML ≥ 6.0
+- pytest (dev)
 
----
+## Estrutura do repositório
 
-## Capacidades
+```
+kb-search/
+├── pyproject.toml · BRIEF.md
+├── src/kbsearch/
+│   ├── busca.py       # corpus BaseConhecimento/Resultado
+│   ├── indexador.py   # TF-IDF + cosseno
+│   ├── normalizacao.py # sinônimos
+│   └── cli.py
+├── dados/             # kb.yaml + sinonimos.yaml
+├── tests/             # 84 testes
+└── LICENSE            # MIT
+```
 
-| Capacidade | Descrição |
-|------------|-------------|
-| Carregamento de Dados | Auto-download do TensorFlow creditcard.csv (284k transações) com cache local |
-| EDA e Visualização | Distribuição de classes, histogramas de Amount, heatmaps de correlação (matplotlib/seaborn) |
-| Pré-processamento | RobustScaler em Amount/Time, split estratificado, remoção de duplicatas |
-| Balanceamento | SMOTE oversampling (fallback: class_weight="balanced") |
-| Modelagem | LogisticRegression, RandomForest, ExtraTrees com RandomizedSearchCV (StratifiedKFold) |
-| Métricas | Accuracy, Precision, Recall, F1, ROC AUC, Specificity, Confusion Matrix |
-| Seleção | Score ponderado: Recall 40% + F1 30% + Precision 20% + Accuracy 10% |
-| Persistência | Serialização joblib para modelo, scaler e resultados completos |
+## Pré-requisitos e instalação
 
+```bash
+pip install -e .
+```
 
----
+## Como executar
 
+```bash
+kbsearch buscar "vpn não conecta" --top 3
+kbsearch buscar "impressora" --categoria hardware --json
+kbsearch listar
+```
 
+## Testes e qualidade
 
----
+Comando real (verificado pelo agente):
 
-## Perguntas Frequentes
+```bash
+PYTHONPATH=src python -m pytest tests/
+# 84 passed
+```
 
-<details>
-<summary><strong>O que é este projeto?</strong></summary>
+## Decisões técnicas e trade-offs
 
-Um estudo/projeto em Python demonstrando conceitos fundamentais.
+- **TF-IDF implementado à mão**: transparência total do ranking; em troca, sem embeddings semânticos (sinônimos cobertos por normalização explícita).
+- **Sinônimos em YAML**: vocabulário da base controlado pelo dono.
+- **Stdlib pura**: leve e auditável.
 
-</details>
+## Limitações conhecidas e roadmap
 
-<details>
-<summary><strong>Como executar?</strong></summary>
+- Busca lexical — não entende semântica além dos sinônimos declarados.
+- Corpus pequeno em memória (sem índice invertido amortizado para bases grandes).
 
-Veja [Início Rápido](#início-rápido) para comandos copiáveis.
+## Processo de desenvolvimento
 
-</details>
+Projeto individual de Kelvin Oliveira, construído com agentes de IA orquestrados e revisado pelo autor.
 
-<details>
-<summary><strong>Há testes?</strong></summary>
+## Licença e autor
 
-Nenhum teste automatizado neste repositório.
-
-</details>
-
-<details>
-<summary><strong>Posso usar em produção?</strong></summary>
-
-Este é um **projeto de estudo/portfólio**. Revise e endureça (auth, persistência, monitoramento, etc.) antes de usar em produção.
-
-</details>
-
-
-
----
-
-## Documentação
-
-- **Código-Fonte** ,  Navegue pelo diretório `src/` para detalhes de implementação
-- **Referência da API** ,  Docstrings inline + type hints
-- **Diagrama de Arquitetura** ,  Veja [architecture.mermaid](docs/architecture.mermaid) (se presente)
-- **Changelog** ,  [CHANGELOG.md](CHANGELOG.md) (se presente)
-- **Contribuindo** ,  [CONTRIBUTING.md](CONTRIBUTING.md) (se presente)
-
-## Licença
-
-[MIT](LICENSE) ,  Kelvin Oliveira
-
----
-
-<div align="center">
-
-**Construído com** · Python 3 + scikit-learn + pandas
-
-**Autor** · [Kelvin Oliveira](https://github.com/KelvinOliveiraCode) · [Portfolio](https://kelvinoliveiracode.github.io/portfolio/)
-
-</div>
+MIT — Copyright (c) 2026 Kelvin Rebelo de Oliveira. Autor: [Kelvin Oliveira](https://github.com/KelvinOliveiraCode) · [Portfólio](https://kelvinoliveiracode.github.io/portfolio/)
