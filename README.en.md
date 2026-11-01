@@ -1,118 +1,98 @@
 # kb-search
 
-<div align="center">
-
 **English** · [Português (Brasil)](README.md)
 
-</div>
-
-[![Python 3](https://img.shields.io/badge/Python-3.x-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/) [![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=flat-square&logo=scikit-learn)](https://scikit-learn.org/) [![pandas](https://img.shields.io/badge/pandas-150458?style=flat-square&logo=pandas)](https://pandas.pydata.org/) [![pytest](https://img.shields.io/badge/pytest-0A9EDC?style=flat-square&logo=pytest)](https://docs.pytest.org/) [![MIT License](https://img.shields.io/badge/License-MIT-f4c430?style=flat-square)](LICENSE)
-
-### Busca por similaridade em base de conhecimento com TF-IDF escrito a mao
-
----
+[![Python 3](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=flat-square&logo=python&logoColor=white)](#) [![PyYAML](https://img.shields.io/badge/PyYAML-only%20dep-3776AB?style=flat-square)](#) [![pytest](https://img.shields.io/badge/pytest-84%20tests-0A9EDC?style=flat-square&logo=pytest)](#) [![MIT License](https://img.shields.io/badge/License-MIT-f4c430?style=flat-square)](LICENSE)
 
 ## What it is
 
-Busca por similaridade em base de conhecimento com TF-IDF escrito a mao
+**A knowledge-base search engine (own implementation)**: it indexes **YAML articles**, with **synonym normalisation** (`Normalizador`) and a hand-rolled **TF-IDF + cosine-similarity** ranking (stdlib, pandas-free). Output in text or **JSON**. It is an educational lexical-search lab (embedding-free).
 
----
+## Status
 
-## Quick Start
+An educational lab, working and tested (84 tests).
 
-```bash
-# Clone and enter
-git clone https://github.com/KelvinOliveiraCode/<repo>.git
-cd <repo>
+## Features
 
-# Install dependencies
-# No requirements.txt detected
+- **Corpus** (`busca.py`): `Artigo` (id/title/text/category), `BaseConhecimento.carregar_base` (YAML), a `Resultado` with score.
+- **Index** (`indexador.py`): `tokenizar`, an `Indice` with TF-IDF (`_normalizar`/matrix), cosine `similaridade`.
+- **Normalisation** (`normalizacao.py`): `carregar_sinonimos` (YAML) and `Normalizador` with `padroesPadrao` — query and docs share one vocabulary.
+- **CLI** (`kbsearch`): `buscar <query> [--top N --categoria]` (text or JSON) and `listar` (all articles).
 
-# Run the project
-python main.py
+## Architecture
 
-# Run tests
-pytest
+A `kbsearch` package with `normalizacao` (synonyms), `indexador` (pure TF-IDF), `busca` (corpus + top-k) and `cli.py`.
+
+```mermaid
+flowchart LR
+    KB[articles .yaml] --> BASE[BaseConhecimento]
+    QRY[query] --> NORM[Normalizador - synonyms]
+    BASE --> IDX[Indice - TF-IDF]
+    NORM --> IDX
+    IDX --> R[similaridade - cosine -> Resultado]
+    R --> OUT[text or JSON]
+    CLI[kbsearch buscar/listar] --> R
 ```
 
-## How it works
+## Stack
 
-Estrutura limpa e modular com separação de responsabilidades.
+- Python ≥ 3.10, stdlib only (pandas-free)
+- PyYAML ≥ 6.0
+- pytest (dev)
 
----
+## Repository layout
 
-## Capabilities
+```
+kb-search/
+├── pyproject.toml · BRIEF.md
+├── src/kbsearch/
+│   ├── busca.py       # BaseConhecimento/Resultado corpus
+│   ├── indexador.py   # TF-IDF + cosine
+│   ├── normalizacao.py # synonyms
+│   └── cli.py
+├── dados/             # kb.yaml + sinonimos.yaml
+├── tests/             # 84 tests
+└── LICENSE            # MIT
+```
 
-| Capacidade | Descrição |
-|------------|-------------|
-| Carregamento de Dados | Auto-download do TensorFlow creditcard.csv (284k transações) com cache local |
-| EDA e Visualização | Distribuição de classes, histogramas de Amount, heatmaps de correlação (matplotlib/seaborn) |
-| Pré-processamento | RobustScaler em Amount/Time, split estratificado, remoção de duplicatas |
-| Balanceamento | SMOTE oversampling (fallback: class_weight="balanced") |
-| Modelagem | LogisticRegression, RandomForest, ExtraTrees com RandomizedSearchCV (StratifiedKFold) |
-| Métricas | Accuracy, Precision, Recall, F1, ROC AUC, Specificity, Confusion Matrix |
-| Seleção | Score ponderado: Recall 40% + F1 30% + Precision 20% + Accuracy 10% |
-| Persistência | Serialização joblib para modelo, scaler e resultados completos |
+## Prerequisites and installation
 
+```bash
+pip install -e .
+```
 
----
+## How to run
 
+```bash
+kbsearch buscar "vpn does not connect" --top 3
+kbsearch buscar "printer" --categoria hardware --json
+kbsearch listar
+```
 
+## Tests and quality
 
----
+Real command (verified by the agent):
 
-## FAQ
+```bash
+PYTHONPATH=src python -m pytest tests/
+# 84 passed
+```
 
-<details>
-<summary><strong>What is this project?</strong></summary>
+## Technical decisions and trade-offs
 
-A Python study/project demonstrating core concepts.
+- **Hand-rolled TF-IDF**: total ranking transparency; the trade-off is no semantic embeddings (synonyms covered by explicit normalisation).
+- **YAML synonyms**: the base vocabulary is owner-controlled.
+- **Pure stdlib**: light and auditable.
 
-</details>
+## Known limitations and roadmap
 
-<details>
-<summary><strong>How do I run it?</strong></summary>
+- Lexical search — it does not understand semantics beyond the declared synonyms.
+- Small in-memory corpus (no optimised inverted index for large bases).
 
-See [Quick Start](#quick-start) for copy-paste commands.
+## Development process
 
-</details>
+An individual project by Kelvin Oliveira, built with orchestrated AI agents and reviewed by the author.
 
-<details>
-<summary><strong>Are there tests?</strong></summary>
+## License and author
 
-No automated tests in this repository.
-
-</details>
-
-<details>
-<summary><strong>Can I use this in production?</strong></summary>
-
-This is a **study/portfolio project**. Review and harden (auth, persistence, monitoring, etc.) before production use.
-
-</details>
-
-
-
----
-
-## Documentation
-
-- **Source Code** ,  Browse the `src/` directory for implementation details
-- **API Reference** ,  Inline docstrings + type hints
-- **Architecture Diagram** ,  See [architecture.mermaid](docs/architecture.mermaid) (if present)
-- **Changelog** ,  [CHANGELOG.md](CHANGELOG.md) (if present)
-- **Contributing** ,  [CONTRIBUTING.md](CONTRIBUTING.md) (if present)
-
-## License
-
-[MIT](LICENSE) ,  Kelvin Oliveira
-
----
-
-<div align="center">
-
-**Built with** · Python 3 + scikit-learn + pandas
-
-**Author** · [Kelvin Oliveira](https://github.com/KelvinOliveiraCode) · [Portfolio](https://kelvinoliveiracode.github.io/portfolio/)
-
-</div>
+MIT — Copyright (c) 2026 Kelvin Rebelo de Oliveira. Author: [Kelvin Oliveira](https://github.com/KelvinOliveiraCode) · [Portfolio](https://kelvinoliveiracode.github.io/portfolio/)
