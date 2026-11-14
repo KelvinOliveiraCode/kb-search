@@ -16,7 +16,7 @@ An educational lab, working and tested (84 tests).
 
 - **Corpus** (`busca.py`): `Artigo` (id/title/text/category), `BaseConhecimento.carregar_base` (YAML), a `Resultado` with score.
 - **Index** (`indexador.py`): `tokenizar`, an `Indice` with TF-IDF (`_normalizar`/matrix), cosine `similaridade`.
-- **Normalisation** (`normalizacao.py`): `carregar_sinonimos` (YAML) and `Normalizador` with `padroesPadrao` — query and docs share one vocabulary.
+- **Normalisation** (`normalizacao.py`): `carregar_sinonimos` (YAML) and `Normalizador` with `padroesPadrao`, query and docs share one vocabulary.
 - **CLI** (`kbsearch`): `buscar <query> [--top N --categoria]` (text or JSON) and `listar` (all articles).
 
 ## Architecture
@@ -42,7 +42,7 @@ flowchart LR
 
 ## Repository layout
 
-```
+```text
 kb-search/
 ├── pyproject.toml · BRIEF.md
 ├── src/kbsearch/
@@ -80,13 +80,13 @@ PYTHONPATH=src python -m pytest tests/
 
 ## Technical decisions and trade-offs
 
-- **Hand-rolled TF-IDF**: total ranking transparency; the trade-off is no semantic embeddings (synonyms covered by explicit normalisation).
-- **YAML synonyms**: the base vocabulary is owner-controlled.
-- **Pure stdlib**: light and auditable.
+- Hand-rolled TF-IDF: total ranking transparency; the trade-off is no semantic embeddings (synonyms covered by explicit normalisation).
+- YAML synonyms: the base vocabulary is owner-controlled.
+- Pure stdlib: light and auditable.
 
 ## Known limitations and roadmap
 
-- Lexical search — it does not understand semantics beyond the declared synonyms.
+- Lexical search, it does not understand semantics beyond the declared synonyms.
 - Small in-memory corpus (no optimised inverted index for large bases).
 
 ## Development process
@@ -95,4 +95,4 @@ An individual project by Kelvin Oliveira, built with orchestrated AI agents and 
 
 ## License and author
 
-MIT — Copyright (c) 2026 Kelvin Rebelo de Oliveira. Author: [Kelvin Oliveira](https://github.com/KelvinOliveiraCode) · [Portfolio](https://kelvinoliveiracode.github.io/portfolio/)
+MIT. Copyright (c) 2026 Kelvin Rebelo de Oliveira. Author: [Kelvin Oliveira](https://github.com/KelvinOliveiraCode) · [Portfolio](https://kelvinoliveiracode.github.io/portfolio/)

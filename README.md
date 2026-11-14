@@ -16,7 +16,7 @@ Laboratório educacional funcional e testado (84 testes).
 
 - **Corpus** (`busca.py`): `Artigo` (id/título/texto/categoria), `BaseConhecimento.carregar_base` (YAML), `Resultado` com score.
 - **Índice** (`indexador.py`): `tokenizar`, `Indice` com TF-IDF (`_normalizar/matriz`), `similaridade` de cosseno.
-- **Normalização** (`normalizacao.py`): `carregar_sinonimos` (YAML) e `Normalizador` com `padroesPadrao` — consulta e docs no mesmo vocabulário.
+- **Normalização** (`normalizacao.py`): `carregar_sinonimos` (YAML) e `Normalizador` com `padroesPadrao`, consulta e docs no mesmo vocabulário.
 - **CLI** (`kbsearch`): `buscar <consulta> [--top N --categoria]` (texto ou JSON) e `listar` (todos os artigos).
 
 ## Arquitetura
@@ -42,7 +42,7 @@ flowchart LR
 
 ## Estrutura do repositório
 
-```
+```text
 kb-search/
 ├── pyproject.toml · BRIEF.md
 ├── src/kbsearch/
@@ -80,13 +80,13 @@ PYTHONPATH=src python -m pytest tests/
 
 ## Decisões técnicas e trade-offs
 
-- **TF-IDF implementado à mão**: transparência total do ranking; em troca, sem embeddings semânticos (sinônimos cobertos por normalização explícita).
-- **Sinônimos em YAML**: vocabulário da base controlado pelo dono.
-- **Stdlib pura**: leve e auditável.
+- TF-IDF implementado à mão: transparência total do ranking; em troca, sem embeddings semânticos (sinônimos cobertos por normalização explícita).
+- Sinônimos em YAML: vocabulário da base controlado pelo dono.
+- Stdlib pura: leve e auditável.
 
 ## Limitações conhecidas e roadmap
 
-- Busca lexical — não entende semântica além dos sinônimos declarados.
+- Busca lexical, não entende semântica além dos sinônimos declarados.
 - Corpus pequeno em memória (sem índice invertido amortizado para bases grandes).
 
 ## Processo de desenvolvimento
@@ -95,4 +95,4 @@ Projeto individual de Kelvin Oliveira, construído com agentes de IA orquestrado
 
 ## Licença e autor
 
-MIT — Copyright (c) 2026 Kelvin Rebelo de Oliveira. Autor: [Kelvin Oliveira](https://github.com/KelvinOliveiraCode) · [Portfólio](https://kelvinoliveiracode.github.io/portfolio/)
+MIT. Copyright (c) 2026 Kelvin Rebelo de Oliveira. Autor: [Kelvin Oliveira](https://github.com/KelvinOliveiraCode) · [Portfólio](https://kelvinoliveiracode.github.io/portfolio/)
